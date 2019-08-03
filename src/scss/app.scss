@@ -1,15 +1,29 @@
-@import './variables';
+
+@import './fonts';
+
+// import required fonts //
+@import "fonts";
+
+// import customized variables //
+@import "variables";
+
+// import functions and mixins
 @import './functions';
 @import './mixins';
 
-@import './fonts';
+// Import default variables and available mixins.
+@import "../../node_modules/uikit/src/scss/variables-theme.scss";
+@import "../../node_modules/uikit/src/scss/mixins-theme.scss";
+
+// import custom mixin overrites (hooks)
+@import "hooks";
+
+// Import UIkit.
+@import "../../node_modules/uikit/src/scss/uikit-theme.scss";
 
 * {
     padding: 0;
     margin: 0;
 }
 
-html, body {
-    font-family: $font-family;
-    color: color(dark);
-}
+@import './site'

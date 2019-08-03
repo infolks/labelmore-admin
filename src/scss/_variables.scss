@@ -1,21 +1,45 @@
-/*
- |------------------------------------------------
- | VARIABLES USED FOR THEMING
- |------------------------------------------------
-*/
+// COLORS //
+$primary:   #34D18E;
+$secondary: #0B172A;
 
-// COLORS
-$colors: (
-    primary: #E85359,
-    secondary: #C9EDEB,
-    muted: #FFF9E9,
-    tint: #FF9E92,
-    success: #359668,
-    warning: #FFD54F,
-    danger: #F13841,
-    info: #49ADEB,
-    dark: #3B3B3B,
-    light: #F2F2F2
-);
+$success:   #8bc34a;
+$warning:   #ffc107;
+$danger :   #f44336;
+$muted  :   #f8f8f8;
 
-$font-family: 'Poppins', sans-serif;
+$dark   :   #2e2e2e;
+$gray   :   #666;
+$light  :   #f4f4f4;
+
+// OVERRIDES //
+$global-primary-background: $primary;
+$global-secondary-background: $secondary;
+
+$global-success-background: $success;
+$global-warning-background: $warning;
+$global-danger-background: $danger;
+$global-muted-background: $muted;
+
+$global-link-color: $primary;
+$base-link-hover-text-decoration: none;
+
+$global-color: $gray;
+$global-emphasis-color: $dark;
+$global-inverse-color: $light;
+
+$global-border: darken($muted, 5%);
+
+$global-font-family: 'Poppins', 'Roboto', sans-serif;
+$global-font-size: 14px;
+
+// notification
+$notification-message-background: $dark;
+$notification-message-font-size: 0.8rem;
+$notification-close-top: 15px;
+$notification-message-color: $light;
+
+// navbar
+$navbar-nav-item-height: 60px;
+
+// dropdown
+$dropdown-padding: 0;

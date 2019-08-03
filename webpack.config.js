@@ -8,7 +8,7 @@ module.exports = {
   entry: {
     app: './src/index.ts',
   },
-  mode: 'production',
+  mode: 'development',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: './dist/',
