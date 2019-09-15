@@ -18,6 +18,11 @@ import UIkit from 'uikit'
 
 import {auth} from './firebase'
 
+// plugin components
+import Croppa from 'vue-croppa'
+
+Vue.use(Croppa)
+
 /*
  |----------------------------------------------------------
  | App Created Here

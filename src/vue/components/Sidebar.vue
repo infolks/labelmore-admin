@@ -5,7 +5,7 @@
         </div>
         <div class="uk-flex uk-flex-middle uk-padding-small" id="user-info" v-if="user">
             <div class="uk-width-auto" id="user-image">
-                <img class="uk-border-circle" width="30" height="30" src="src\assets\manager.svg" alt="manager">
+                <img class="uk-border-circle" width="30" height="30" src="../../assets/manager.svg" alt="manager">
             </div>
             <div class="uk-width-expand uk-margin-left" id="user-detail">
                 <div class="uk-text-primary">{{user.name}}</div>

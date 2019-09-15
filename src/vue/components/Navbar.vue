@@ -12,7 +12,7 @@
             <div class="uk-navbar-right">
                 <div v-if="user">
                     <div class="uk-navbar-item uk-flex uk-flex-middle" id="user-dropdown-trigger">
-                        <img class="uk-border-circle" width="30" height="30" src="src\assets\manager.svg" alt="manager">
+                        <img class="uk-border-circle" width="30" height="30" src="../../assets/manager.svg" alt="manager">
                         <div class="uk-margin-left uk-text-small uk-width-expand">
                             <div>{{user.name}}</div>
                             <div class="uk-text-meta" style="font-size:0.7rem">@{{user.username}}</div>

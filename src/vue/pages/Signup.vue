@@ -134,7 +134,7 @@
 
                 // Email
 
-                const email_regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
+                const email_regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6}$/
 
                 if (!this.email.trim()) {
                     errors['email'] = "email field cannot be empty"

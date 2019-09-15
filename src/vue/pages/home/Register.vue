@@ -1,17 +1,36 @@
 <template>
-    <div class="uk-flex uk-flex-middle uk-flex-center" uk-height-viewport="offset-top: true">
+    <div class="uk-flex uk-flex-middle uk-flex-center uk-padding-small" uk-height-viewport="offset-top: true">
         
         <form @submit.prevent="register" class="uk-card uk-border-rounded uk-card-default uk-width-1-1 uk-width-2-3@m">
                 <div class="uk-card-body">
 
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                    <div class="uk-grid-small" uk-grid>
 
                         <!-- Icon -->
-                        <!-- <div class="uk-width-auto uk-padding-small">
-                            <div class="uk-placeholder uk-flex uk-flex-middle uk-flex-center" style="width: 100px; height: 100px;">
-                                <span class="uk-text-meta"></span>
+                        <div class="uk-width-auto uk-padding-small">
+                            <div class="uk-placeholder uk-padding-remove">
+                                <!-- <img src="../../../assets/plugin.svg" :alt="plugin.title || 'Plugin Icon'" ref="pluginIcon"> -->
+                                <croppa 
+                                    v-model="croppa"
+                                    :width="150"
+                                    :height="150"
+                                    :disable-click-to-chose="true"
+                                    :placeholder-font-size="16"
+                                    :quality="2.56"
+                                    :replace-drop="true"
+                                    :zoom-speed="10"
+                                    placeholder="Choose Icon"
+                                    initial-size="cover"
+                                    initial-position="center">
+                                    <!-- <img src="../../../assets/plugin.svg" slot="placeholder" /> -->
+                                </croppa>
                             </div>
-                        </div> -->
+                            <div class="uk-margin-top">
+                                <button type="button" @click="croppa.chooseFile()" class="uk-button uk-button-primary uk-width-1-1">
+                                    {{plugin.icon? 'CHANGE' : 'UPLOAD'}} ICON
+                                </button>
+                            </div>
+                        </div>
 
                         <!-- Form -->
                         <div class="uk-width-expand">
@@ -41,15 +60,16 @@
                                 <!-- <span class="uk-text-small uk-text-danger" v-if="dirty && errors.password">{{errors.password}}</span> -->
                             </div>
 
-                            <div class="uk-margin uk-text-center">
-                                <button type="submit" class="uk-button uk-button-primary" :disabled="!valid">
-                                    <i class="uk-margin-right fas fa-sign-in-alt" v-if="!loading.register"></i>
-                                    <div class="uk-margin-right" uk-spinner="ratio: 0.3" v-else></div>
-                                    Register
-                                </button>
-                            </div>
-
                         </div>
+                    </div>
+                    <div class="uk-margin uk-text-right">
+
+                        <button type="submit" class="uk-button uk-button-primary" :disabled="!valid">
+                            <i class="uk-margin-right fas fa-sign-in-alt" v-if="!loading.register"></i>
+                            <div class="uk-margin-right" uk-spinner="ratio: 0.3" v-else></div>
+                            Register
+                        </button>
+
                     </div>
                 </div>
             </form>
@@ -64,7 +84,7 @@
     
     import UIkit from 'uikit'
 
-    import {db} from '../../../firebase'
+    import {db, storage} from '../../../firebase'
 
     export default Vue.extend({
         data() {
@@ -80,6 +100,7 @@
                     description: '',
                     icon: null
                 },
+                croppa: null,
                 plugin_details: null,
                 timeout: null
             }
@@ -136,9 +157,45 @@
                 }
             },
 
+            reset() {
+                this.plugin = {
+                    title: '',
+                    name: '',
+                    description: '',
+                    icon: null
+                }
+
+                this.dirty = false
+
+                this.croppa.remove()
+            },
+
+            async upload(id) {
+                
+                if (this.croppa.hasImage()) {
+
+                    const blob = await this.croppa.promisedBlob('image/png')
+
+                    const ref = storage.ref('plugin_icons').child(`${id}.png`)
+
+                    const snap = await ref.put(blob, {
+                        contentType: 'image/png'
+                    })
+
+                    const url = await ref.getDownloadURL()
+
+                    console.log(snap, url)
+
+                    return url.toString()
+
+                }
+
+                return null
+            },
+
             async register() {
 
-                if (this.user) {
+                if (this.user && this.valid) {
 
                     const plugin = {
                         id: null,
@@ -158,10 +215,16 @@
 
                         plugin.id = doc.id
 
+                        // upload image
+                        plugin.icon = await this.upload(plugin.id)
+
                         // add plugin to db
                         await doc.set(plugin)
 
                         UIkit.notification(`Registered ${plugin.name}.`, {status: 'success'})
+
+                        // reset fields
+                        this.reset()
 
                     }
 
@@ -239,9 +302,17 @@
     })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     
     textarea {
         resize: none;
+    }
+
+    .croppa-container {
+        position: relative;
+
+        svg.icon.icon-remove {
+            position: absolute;
+        }
     }
 </style>
